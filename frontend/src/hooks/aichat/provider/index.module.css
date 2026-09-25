@@ -1,0 +1,43 @@
+.root {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+}
+
+/* .top :global(.semi-ai-chat-dialogue-list) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--semi-color-fill-2) transparent;
+}
+
+.top :global(.semi-ai-chat-dialogue-list)::-webkit-scrollbar {
+    width: 6px;
+}
+
+.top :global(.semi-ai-chat-dialogue-list)::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.top :global(.semi-ai-chat-dialogue-list)::-webkit-scrollbar-thumb {
+    background-color: var(--semi-color-fill-1);
+    border-radius: 999px;
+}
+
+.top :global(.semi-ai-chat-dialogue-list)::-webkit-scrollbar-thumb:hover {
+    background-color: var(--semi-color-fill-2);
+} */
+
+.bottom {
+    width: 85%;
+    flex: 0 0 auto;
+}

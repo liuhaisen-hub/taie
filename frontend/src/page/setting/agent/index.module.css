@@ -1,0 +1,53 @@
+.root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+}
+
+.table {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.table :global(.semi-spin.semi-spin-block) {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.table :global(.semi-spin.semi-spin-block .semi-spin-children) {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.table :global(.semi-spin-children) > div {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.table :global(.semi-table-container) {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.table :global(.semi-table-pagination-outer) {
+    flex-shrink: 0;
+}
