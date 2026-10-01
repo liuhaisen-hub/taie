@@ -8,6 +8,11 @@ package main
 
 import (
 	"github.com/wailsapp/wails/v3/pkg/application"
+	"log/slog"
+	"taie/internal/agentkit"
+	"taie/internal/agentkit/hooks"
+	"taie/internal/agentkit/trace"
+	"taie/internal/agentkit/workspace"
 	"taie/internal/app"
 	"taie/internal/data"
 	"taie/internal/services"
@@ -19,18 +24,41 @@ import (
 // `wire` tool (build tag `wireinject`); the generated implementation lives in
 // wire_gen.go. Regenerate with `make wire` (or the `wire` CLI) after changing
 // providers.
-func InitializeApp() (*application.App, error) {
+//
+// *slog.Logger 是注入源（同 sale 的 wireApp 模式）：main 把全局 logger 传进来后，
+// wire.Build 里任何构造函数声明 *slog.Logger 参数即可按需拿到它，
+// 不需要的构造函数不用改签名。
+func InitializeApp(log *slog.Logger) (*application.App, func(), error) {
 	fs := _wireFSValue
 	string2 := _wireStringValue
-	dataData, err := data.NewData(string2)
+	dataData, cleanup, err := data.NewData(string2)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	modelRepo := data.NewModelRepo(dataData)
 	modelServices := services.NewModelServices(modelRepo)
-	agentServices := services.NewAgentServices(modelRepo)
-	applicationApp := app.NewWailsApp(fs, modelServices, agentServices)
-	return applicationApp, nil
+	toolsRepo := data.NewToolsRepo()
+	toolsServices := services.NewToolsServices(toolsRepo)
+	systemRepo := data.NewSystemRepo()
+	systemServices := services.NewSystemServices(systemRepo)
+	chatSessionRepo := data.NewChatSessionRepo(dataData)
+	sessionServices := services.NewSessionServices(chatSessionRepo)
+	tokenUseRepo := data.NewTokenUseRepo(dataData)
+	tokenUseServices := services.NewTokenUseServices(tokenUseRepo)
+	agentRepo := data.NewAgentRepo(dataData)
+	checkPointRepo := data.NewCheckPointRepo(dataData)
+	checkPointStore := workspace.NewCheckpointStore(checkPointRepo)
+	tracer := trace.NewLogCollectHandler(log)
+	usageRepo := data.NewUseRepo(dataData)
+	permissionRepo := data.NewPermissionRepo(dataData)
+	v := hooks.BuildHooks(usageRepo, permissionRepo)
+	chatAgent := agentkit.NewChatAgent(agentRepo, checkPointStore, tracer, v, log)
+	sessionRepo := data.NewSessionRepo(dataData)
+	agentServices := services.NewAgentServices(modelRepo, chatAgent, sessionRepo)
+	applicationApp := app.NewWailsApp(fs, modelServices, toolsServices, systemServices, sessionServices, tokenUseServices, agentServices)
+	return applicationApp, func() {
+		cleanup()
+	}, nil
 }
 
 var (

@@ -21,10 +21,11 @@ func Migrate(dsn string) error {
 		return fmt.Errorf("no migration files found in %s", MigrationsDir)
 	}
 
-	d, err := NewData(dsn)
+	d, cleanup, err := NewData(dsn)
 	if err != nil {
 		return err
 	}
+	defer cleanup()
 
 	for _, file := range files {
 		content, err := os.ReadFile(file)

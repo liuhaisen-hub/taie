@@ -1,0 +1,14 @@
+.root {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.action {
+    width: 100%;
+    justify-content: flex-start;
+}

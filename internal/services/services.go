@@ -2,4 +2,4 @@ package services
 
 import "github.com/google/wire"
 
-var ProviderSet = wire.NewSet(NewModelServices, NewAgentServices)
+var ProviderSet = wire.NewSet(NewModelServices, NewAgentServices, NewToolsServices, NewSystemServices, NewSessionServices, NewTokenUseServices)

@@ -53,7 +53,7 @@ func (m modelRepo) List(ctx context.Context, name string, page, pageSize int) ([
 
 	query := m.data.db.WithContext(ctx).Model(&po.AIModel{})
 	if name != "" {
-		query = query.Where("name LIKE ?", "%"+name+"%")
+		query = query.Where("model_name LIKE ?", "%"+name+"%")
 	}
 
 	var total int64

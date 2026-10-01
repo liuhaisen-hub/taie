@@ -1,4 +1,4 @@
-import { AIChatProvider } from "@/hooks/aichat"
+import { AIChatProvider } from "@/components/aichat"
 import style from './index.module.css'
 export const HomePage = () => {
     return <div className={style.home}>

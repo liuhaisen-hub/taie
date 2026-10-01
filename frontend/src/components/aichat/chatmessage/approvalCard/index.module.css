@@ -1,0 +1,77 @@
+/* approval 审批卡：等待裁决（警示色）/ 已裁决（结果态）两态 */
+.approvalCard {
+    margin: 8px 0;
+    padding: 8px 12px;
+    border: 1px solid var(--semi-color-warning);
+    border-radius: 8px;
+    background: var(--semi-color-warning-light-default);
+    max-width: 100%;
+}
+
+.approvalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--semi-color-text-1);
+    font-size: 12px;
+}
+
+.approvalActions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* 审批卡入参展示：批准前先看清要执行什么 */
+.approvalArgs {
+    margin: 8px 0 0;
+    padding: 8px 10px;
+    max-height: 160px;
+    overflow: auto;
+    border: 1px solid var(--semi-color-border);
+    border-radius: 6px;
+    background: var(--semi-color-bg-4);
+    color: var(--semi-color-text-1);
+    font-size: 12px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.approvalReason {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.approveBtn,
+.rejectBtn {
+    padding: 2px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.approveBtn {
+    background: var(--semi-color-primary);
+    color: var(--semi-color-bg-4);
+}
+
+.rejectBtn {
+    background: var(--semi-color-danger);
+    color: var(--semi-color-bg-4);
+}
+
+.reasonInput {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 2px 8px;
+    border: 1px solid var(--semi-color-border);
+    border-radius: 6px;
+    background: var(--semi-color-bg-4);
+    color: var(--semi-color-text-0);
+    font-size: 12px;
+}

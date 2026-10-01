@@ -1,0 +1,77 @@
+.session {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* 滚动槽常驻占位，滑块默认透明，hover 容器时才显示 */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    cursor: pointer;
+}
+
+.session:hover {
+    scrollbar-color: var(--semi-color-fill-1) transparent;
+}
+
+.session::-webkit-scrollbar {
+    width: 6px;
+}
+
+.session::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.session::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: transparent;
+}
+
+.session:hover::-webkit-scrollbar-thumb {
+    background: var(--semi-color-fill-1);
+}
+
+.session::-webkit-scrollbar-thumb:hover {
+    background: var(--semi-color-fill-2);
+}
+
+
+
+.main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 当前选中会话高亮 */
+.active {
+    background: var(--semi-color-fill-0);
+}
+
+.text {
+    width: 160px;
+}
+
+.placeholder {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px;
+    border-bottom: 1px solid var(--semi-color-border);
+}
+
+.placeholderAvatar {
+    margin-right: 12px;
+}
+
+.placeholderTitle {
+    width: 120px;
+    margin: 12px 0;
+}
+
+.placeholderParagraph {
+    width: 100%;
+}
+
+.skeleton {
+    display: block;
+}

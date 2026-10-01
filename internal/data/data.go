@@ -6,7 +6,18 @@ import (
 	"gorm.io/gorm"
 )
 
-var ProviderSet = wire.NewSet(NewData, NewModelRepo)
+var ProviderSet = wire.NewSet(NewData,
+	NewModelRepo,
+	NewAgentRepo,
+	NewSessionRepo,
+	NewToolsRepo,
+	NewSystemRepo,
+	NewCheckPointRepo,
+	NewChatSessionRepo,
+	NewTokenUseRepo,
+	NewUseRepo,
+	NewPermissionRepo,
+)
 
 // DefaultDSN is used when no DSN is provided.
 const DefaultDSN = "taie.db"
@@ -19,20 +30,23 @@ type Data struct {
 
 // NewData opens (and creates if needed) the SQLite database at dsn and
 // returns the connection wrapper. An empty dsn falls back to DefaultDSN.
-func NewData(dsn string) (*Data, error) {
+func NewData(dsn string) (*Data, func(), error) {
 	if dsn == "" {
 		dsn = DefaultDSN
 	}
 
 	db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-
-	return &Data{db: db}, nil
-}
-
-// DB returns the underlying GORM handle.
-func (d *Data) DB() *gorm.DB {
-	return d.db
+	sql, err := db.DB()
+	if err != nil {
+		return nil, nil, err
+	}
+	sql.SetMaxOpenConns(1)
+	sql.SetMaxIdleConns(1)
+	cleanup := func() {
+		sql.Close()
+	}
+	return &Data{db: db}, cleanup, nil
 }

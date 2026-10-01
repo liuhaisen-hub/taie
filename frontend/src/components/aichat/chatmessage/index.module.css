@@ -1,0 +1,61 @@
+/* function_call 状态卡：调用中/完成两态，经 renderDialogueContentItem 注册渲染 */
+.toolCallCard {
+    margin: 8px 0;
+    border: 1px solid var(--semi-color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.toolCallHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 6px 12px;
+    border: none;
+    background: var(--semi-color-fill-0);
+    color: var(--semi-color-text-1);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.toolCallToggle {
+    color: var(--semi-color-text-2);
+}
+
+.toolCallBody {
+    margin: 0;
+    padding: 8px 12px;
+    max-height: 240px;
+    overflow: auto;
+    font-size: 12px;
+    line-height: 18px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--semi-color-text-1);
+}
+
+/* markdown 溢出修复：flex 链默认 min-width:auto，长代码行/URL 会撑破气泡 */
+.dialogue :global(.semi-ai-chat-dialogue-container),
+.dialogue :global(.semi-ai-chat-dialogue-content-wrapper),
+.dialogue :global(.semi-ai-chat-dialogue-content) {
+    min-width: 0;
+}
+
+/* 长词/URL 在气泡内断行；超宽内容（表格等）在气泡内横向滚动 */
+.dialogue :global(.semi-ai-chat-dialogue-content-bubble),
+.dialogue :global(.semi-ai-chat-dialogue-content-userBubble) {
+    overflow-wrap: anywhere;
+    overflow-x: auto;
+}
+
+/* 代码块 white-space:pre 不参与断行，单独允许横向滚动 */
+.dialogue :global(.semi-markdownRender pre) {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.dialogue :global(.semi-markdownRender li) {
+    margin: 8px 0px 8px 18px;
+}

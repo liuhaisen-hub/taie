@@ -1,0 +1,103 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+    /* 两个图表区高度固定，窗口偏矮时整页滚动 */
+    overflow-y: auto;
+    /* 滚动槽常驻占位，滑块默认透明，hover 容器时才显示（同表格 table_warp） */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.root:hover {
+    scrollbar-color: var(--semi-color-fill-1) transparent;
+}
+
+.root::-webkit-scrollbar {
+    width: 6px;
+}
+
+.root::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.root::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: transparent;
+}
+
+.root:hover::-webkit-scrollbar-thumb {
+    background: var(--semi-color-fill-1);
+}
+
+.root::-webkit-scrollbar-thumb:hover {
+    background: var(--semi-color-fill-2);
+}
+
+.section {
+    min-width: 0;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sectionTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--semi-color-text-1);
+    margin-bottom: 10px;
+    padding-left: 2px;
+}
+
+.summary {
+    font-size: 12px;
+    color: var(--semi-color-text-2);
+    margin-bottom: 6px;
+    padding-left: 2px;
+}
+
+.legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 4px;
+    padding-left: 2px;
+}
+
+.legendItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--semi-color-text-2);
+}
+
+.legendItem i {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dotPrompt {
+    background-color: #4c8bf5;
+}
+
+.dotCompletion {
+    background-color: #2fbfa0;
+}
+
+.chart {
+    width: 100%;
+    height: 240px;
+    color: var(--semi-color-text-2);
+}
+
+/* 重新加载时图表降透明度，避免闪烁空白 */
+.chartLoading {
+    opacity: 0.5;
+    pointer-events: none;
+}

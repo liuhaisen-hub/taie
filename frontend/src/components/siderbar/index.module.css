@@ -1,0 +1,32 @@
+.sider_bar {
+    width: 100%;
+    height: calc(100% - 60px);
+    min-height: 0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+.bottom {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-top: 1px solid var(--semi-color-border);
+    box-sizing: border-box;
+}
+
+/* 设置弹窗：Semi 的 .semi-modal-body-wrapper 默认不撑满、body 高度跟随内容，
+   导致内部所有 height:100% 失效、超出部分被 overflow:hidden 裁掉。 */
+.setting_modal_content :global(.semi-modal-body-wrapper) {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+}
+
+.setting_modal_content :global(.semi-modal-body) {
+    height: 100%;
+    max-height: none;
+}

@@ -5,10 +5,106 @@
 // @ts-ignore: Unused imports
 import * as po$0 from "../po/models.js";
 
+export interface ChatSessionReq {
+    "id": number;
+}
+
+export interface DeleteSessionReq {
+    "id": number;
+}
+
+export interface EnableReq {
+    "toolName": string;
+    "enable": boolean;
+}
+
+export interface ListModelReq {
+    "modeName": string;
+    "page": number;
+    "size": number;
+}
+
+export interface ListSessionReq {
+    "title": string;
+    "page": number;
+    "size": number;
+}
+
+export interface ListToolReq {
+    "page": number;
+    "size": number;
+}
+
 /**
  * ModelList 是 List 的分页查询结果。
  */
 export interface ModelList {
     "items": (po$0.AIModel | null)[] | null;
     "total": number;
+}
+
+/**
+ * SessionList 是 List 的分页查询结果。
+ */
+export interface SessionList {
+    "items": (po$0.ChatSession | null)[] | null;
+    "total": number;
+}
+
+/**
+ * TokenDailyStat 单日 token 用量聚合
+ */
+export interface TokenDailyStat {
+    /**
+     * YYYY-MM-DD（本地时区）
+     */
+    "date": string;
+    "promptTokens": number;
+    "completionTokens": number;
+    "totalTokens": number;
+}
+
+/**
+ * TokenModelStat 按模型名称聚合的 token 用量
+ */
+export interface TokenModelStat {
+    "modelName": string;
+    "promptTokens": number;
+    "completionTokens": number;
+    "totalTokens": number;
+}
+
+/**
+ * TokenSessionStat 按会话聚合的 token 用量
+ */
+export interface TokenSessionStat {
+    "sessionId": number;
+    "title": string;
+    "promptTokens": number;
+    "completionTokens": number;
+    "totalTokens": number;
+}
+
+export interface TokenUsageReq {
+    /**
+     * Days 最近天数；0 表示不限时间
+     */
+    "days": number;
+}
+
+/**
+ * ToolList 是 List 的分页查询结果。
+ */
+export interface ToolList {
+    "items": (po$0.ToolConfig | null)[] | null;
+    "total": number;
+}
+
+export interface UpdateSystemReq {
+    "config": po$0.SystemConfig | null;
+}
+
+export interface UpdateToolReq {
+    "toolName": string;
+    "args": po$0.CommonJson[] | null;
 }

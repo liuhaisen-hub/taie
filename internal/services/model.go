@@ -55,9 +55,15 @@ func (m *ModelServices) GetByID(ctx context.Context, id uint) (*po.AIModel, erro
 	return m.repo.GetByID(ctx, id)
 }
 
+type ListModelReq struct {
+	ModelName string `json:"modeName"`
+	Page      int    `json:"page"`
+	Size      int    `json:"size"`
+}
+
 // List 按名字模糊搜索分页查询模型列表，name 为空时查全部
-func (m *ModelServices) List(ctx context.Context, name string, page, pageSize int) (*ModelList, error) {
-	items, total, err := m.repo.List(ctx, name, page, pageSize)
+func (m *ModelServices) List(ctx context.Context, req *ListModelReq) (*ModelList, error) {
+	items, total, err := m.repo.List(ctx, req.ModelName, req.Page, req.Size)
 	if err != nil {
 		return nil, err
 	}

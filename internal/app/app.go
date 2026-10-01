@@ -6,6 +6,7 @@ import (
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 
+	"taie/internal/pkg/events"
 	"taie/internal/services"
 )
 
@@ -14,7 +15,7 @@ import (
 // it is embedded in the main package and passed in here) and every service
 // that should be bound to the frontend as parameters, so adding a new service
 // means adding a provider and listing it in wire.go.
-func NewWailsApp(assets embed.FS, modelService *services.ModelServices, agentService *services.AgentServices) *application.App {
+func NewWailsApp(assets embed.FS, modelService *services.ModelServices, toolsService *services.ToolsServices, systemService *services.SystemServices, sessionService *services.SessionServices, tokenUseService *services.TokenUseServices, ags *services.AgentServices) *application.App {
 	// Create a new Wails application by providing the necessary options.
 	// Variables 'Name' and 'Description' are for application metadata.
 	// 'Assets' configures the asset server with 'assets' pointing to the frontend files.
@@ -25,6 +26,10 @@ func NewWailsApp(assets embed.FS, modelService *services.ModelServices, agentSer
 		Description: "A demo of using raw HTML & CSS",
 		Services: []application.Service{
 			application.NewService(modelService),
+			application.NewService(toolsService),
+			application.NewService(systemService),
+			application.NewService(sessionService),
+			application.NewService(tokenUseService),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
@@ -47,8 +52,23 @@ func NewWailsApp(assets embed.FS, modelService *services.ModelServices, agentSer
 
 		// c.Context() 在前端断开时自动取消，Ask 内部的模型调用随之中断。
 		// Ask 出错时已通过 onEvent 推送 error 事件，这里无需重复处理。
-		_ = agentService.Ask(c.Context(), req.UserInput, func(ev services.ChatEvent) error {
-			return c.SendJSON(ev)
+		ags.ChatWithAgent(c.Context(), &req, func(e events.Event) error {
+			return c.SendJSON(e)
+		})
+	})
+	// 注册审批回调通道，协议与 agent/chat 对称：
+	// 前端收到 approval 事件弹卡片，用户裁决后发一条 {"session_id","interrupt_id","approved","reason"}，
+	// Go 从 checkpoint 续跑并回推同一套事件，直到 done/error/approval(多工具连续审批)。
+	wailsApp.HandleStream("agent/approval", func(c *application.StreamConn) {
+		defer c.Close()
+
+		var req services.ApprovalRequest
+		if err := c.ReceiveJSON(&req); err != nil {
+			return
+		}
+
+		ags.ApprovalWithAgent(c.Context(), &req, func(e events.Event) error {
+			return c.SendJSON(e)
 		})
 	})
 	// Create a new window with the necessary options.

@@ -10,6 +10,7 @@ import (
 
 	"taie/internal/app"
 	"taie/internal/data"
+	"taie/internal/pkg/logger"
 )
 
 // Wails uses Go's `embed` package to embed the frontend files into the binary.
@@ -19,7 +20,6 @@ import (
 // receives it as a parameter.
 // See https://pkg.go.dev/embed for more information.
 
-//go:embed all:frontend/dist
 var assets embed.FS
 
 func init() {
@@ -46,10 +46,13 @@ func main() {
 		return
 	}
 
-	wailsApp, err := InitializeApp()
+	// Get() 初始化全局单例并 slog.SetDefault：之后任意包可 logger.Info(...) / slog.Info(...)。
+	// 同时作为依赖传入 Wire——wire.go 里声明 *slog.Logger 参数的构造函数按需拿到它。
+	wailsApp, cleanup, err := InitializeApp(logger.Get())
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer cleanup()
 
 	// Emit a "time" event every second while the app is running.
 	app.StartClockEmitter(wailsApp)

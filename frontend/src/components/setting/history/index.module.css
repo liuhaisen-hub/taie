@@ -1,0 +1,51 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    min-width: 0;
+}
+
+/* 表格吃掉剩余高度，超出时由 table_warp 滚动 */
+.table_warp {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* 滚动到底后表格与容器底部留出间距 */
+    padding-bottom: 16px;
+    /* 滚动槽常驻占位，滑块默认透明，hover 容器时才显示（同 sessionlist） */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.table_warp:hover {
+    scrollbar-color: var(--semi-color-fill-1) transparent;
+}
+
+.table_warp::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table_warp::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table_warp::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: transparent;
+}
+
+.table_warp:hover::-webkit-scrollbar-thumb {
+    background: var(--semi-color-fill-1);
+}
+
+.table_warp::-webkit-scrollbar-thumb:hover {
+    background: var(--semi-color-fill-2);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

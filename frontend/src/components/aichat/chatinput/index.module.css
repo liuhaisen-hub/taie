@@ -1,0 +1,12 @@
+/* 输入框与聊天区的间距（替代原行内 style） */
+.input {
+    margin: 12px;
+}
+
+/* 配置区：深度思考 / 模型选择等 Configure 项横向排列 */
+.configure {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}

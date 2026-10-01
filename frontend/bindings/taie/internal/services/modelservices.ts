@@ -37,8 +37,8 @@ export function GetByID(id: number): $CancellablePromise<po$0.AIModel | null> {
 /**
  * List 按名字模糊搜索分页查询模型列表，name 为空时查全部
  */
-export function List(name: string, page: number, pageSize: number): $CancellablePromise<$models.ModelList | null> {
-    return $Call.ByID(4164338812, name, page, pageSize);
+export function List(req: $models.ListModelReq | null): $CancellablePromise<$models.ModelList | null> {
+    return $Call.ByID(4164338812, req);
 }
 
 /**

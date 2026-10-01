@@ -1,3 +1,0 @@
-package loop
-
-func NewLoopAgent()
